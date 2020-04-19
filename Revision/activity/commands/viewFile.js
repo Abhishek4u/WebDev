@@ -28,7 +28,7 @@ function viewAsTree(src, indent) {
             //d10/d20
             viewAsTree(childPath, indent + "\t");
         }
-        //children =>viewAsTree
+        //children => viewAsTree
     }
 }
 
@@ -47,6 +47,6 @@ function viewAsFlatFile(src, toprint) {
             //d10/d20
             viewAsFlatFile(childPath, path.join(toprint, child));
         }
-        //children =>viewAsFlatFile
+        //children => viewAsFlatFile
     }
 }

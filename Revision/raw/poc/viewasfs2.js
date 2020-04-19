@@ -11,7 +11,7 @@ function viewAsFlatFile(src) {
     else {
         console.log(src);
         //children => content read
-        let childrens = fs.readdirSync(src);
+        let childrens = fs.readdirSync(src); //returns array of children
         for (let i = 0; i < childrens.length; i++) {
             let child = childrens[i];
             let childPath = path.join(src, child);
