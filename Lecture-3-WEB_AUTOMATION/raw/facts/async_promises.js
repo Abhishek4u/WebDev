@@ -1,15 +1,18 @@
 let fs = require("fs");
 console.log("Before");
-console.log("start");
+// console.log("start")
 let fileWillBeReadPromise = fs.promises.readFile("f1.html");
-console.log(fileWillBeReadPromise);
+console.log(fileWillBeReadPromise)
 
-fileWillBeReadPromise.then(function (content) {
-    console.log(content + " ");
-    console.log("finish");
+fileWillBeReadPromise.then(function(content){
+console.log("content has arrived")
+  console.log(content);
 })
-fileWillBeReadPromise.catch(function (err) {
-    console.log(err);
-})
+
+setTimeout(function () {
+  console.log("I was called after 3sec ");
+  console.log(fileWillBeReadPromise);
+}, 3000);
+
 console.log("After");
-console.log("I will execute")
+// console.log(" I will execute");
