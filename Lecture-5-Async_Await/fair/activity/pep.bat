@@ -1,1 +1,1 @@
-node "moderator.js" "credentials.json" username
+node "createChallenge.js" "credentials.json" "./questions.js" username

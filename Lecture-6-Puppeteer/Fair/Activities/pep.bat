@@ -1,0 +1,1 @@
+node "moderatorwithP.js" "credentials.json" "temp30"

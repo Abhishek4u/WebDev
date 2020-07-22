@@ -24,14 +24,22 @@ let uToAdd = process.argv[3];
         let loginBtn = await driver.findElement(swd.By.css("button[data-analytics=LoginPassword]"));
         await loginBtn.click();
         // console.log("We haveLogged In");
+        let dropDownBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDown]"));
+        dropDownBtn.click();
         let adminLinkAnchor = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"))
-        let adminPageUrl = await adminLinkAnchor.getAttribute("href");
-        console.log(adminPageUrl);
-        await driver.get(adminPageUrl);
+       await adminLinkAnchor.click();
+
+       await waitForLoader();
+
+        // console.log(adminPageUrl);
+        // await driver.get(adminPageUrl);
         let manageTabs = await driver.findElements(swd.By.css(".administration header ul li"));
         await manageTabs[1].click(); //2nd element clicks
+        let createChallenge = await driver.findElement(swd.By.css(".btn.btn-green.backbone.pull-right"));
+        await createChallenge.click();
+        await waitForLoader();
 
-
+        const eSelector = ['#name',]
     }
 
     catch (err) {
@@ -39,3 +47,8 @@ let uToAdd = process.argv[3];
     }
 
 })();
+async function waitForLoader() {
+    let loader = await driver.findElement(swd.By.css('#ajax-msg'));
+    await driver.wait(swd.until.elementIsNotVisible(loader));
+
+}

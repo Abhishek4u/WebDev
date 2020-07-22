@@ -1,5 +1,5 @@
 // npm init -y
-// npm install selenium webdriver chromedriver
+// npm install selenium-webdriver chromedriver
 require("chromedriver");
 let fs = require("fs");
 let swd = require("selenium-webdriver");
