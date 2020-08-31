@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Amazon",
+        "age": 32,
+        "user_id": "anshul4u",
+        "email": "abc@gmail.com",
+        "phone": "3200000"
+    },
+    {
+        "name": "Anshul",
+        "age": 21,
+        "user_id": "anshul4me",
+        "email": "abc@gmail.com",
+        "phone": "3200000"
+    },
+    {
+        "name": "Abhishek",
+        "age": 21,
+        "user_id": "abhishek4u",
+        "email": "abc@gmail.com",
+        "phone": "8291503629"
+    }
+]
