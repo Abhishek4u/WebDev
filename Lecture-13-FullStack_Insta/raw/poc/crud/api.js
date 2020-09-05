@@ -5,15 +5,36 @@
 // in pkg.json dir => npm start
 const express = require("express");
 const app = express();
-const userDB = require("./user.json");
+let userDB = require("./user.json");
 const fs = require("fs");
 const path = require("path");
 // REST API
 // HTTP request => 
 // create => POST
 // http packet => body 
+// user defined
+app.use(function (req, res, next) {
+    // console.log("1st");
+    // console.log("Line no 17 " + req.body);
+    // console.log(req);
+    // console.log("`````````````````````````");
+    next();
+})
+
+// pre-defined by express( middleware)
 app.use(express.json());
+
 // handler req.body 
+// user defined
+app.use(function (req, res, next) {
+    console.log("2nd");
+    console.log("Line number 25");
+    console.log(req.body);
+    console.log("```````````````````````````````");
+    // console.log(req);
+    // console.log(req.user);
+    next();
+})
 
 app.post("/api/users", function (req, res) {
     let user = req.body;
@@ -32,7 +53,6 @@ app.post("/api/users", function (req, res) {
     })
 })
 
-
 // read  => GET ONE 
 app.get("/api/users/:user_id", function (req, res) {
     let { user_id } = req.params;
@@ -42,87 +62,71 @@ app.get("/api/users/:user_id", function (req, res) {
             user = userDB[i];
         }
     }
+    if (user == undefined) {
+        return res.status(404).json({
+            status: "failure",
+            message: "user not found"
+        })
+    }
+
     res.status(200).json({
         status: "success",
-        user: user != undefined ? user : "no user"
+        user: user
     })
 })
-
-
 // update => PATCH
 // client will your id in url and data to update in req.body
 // api/users/12345
 app.patch("/api/users/:user_id", function (req, res) {
     let { user_id } = req.params;
     // {user_id:12345}
-    let user, found = false;
+    let user;
     let toUpdate = req.body;
     for (let i = 0; i < userDB.length; i++) {
         if (userDB[i].user_id == user_id) {
             user = userDB[i];
-            found = true;
-            break;
         }
     }
-
-    if (found) {
-        if (toUpdate.name != null) {
-
-            user.name = toUpdate.name;
-
-        } else if (toUpdate.age != null) {
-
-            user.age = toUpdate.age;
-
-        } else if (toUpdate.user_id != null) {
-
-            user.user_id = toUpdate.user_id;
-
-        } else if (toUpdate.email != null) {
-
-            user.email = toUpdate.email;
-
-        } else if (toUpdate.phone != null) {
-
-            user.phone = toUpdate.phone;
-        }
-
+    // update
+    for (let key in toUpdate) {
+        user[key] = toUpdate[key];
     }
-
-    fs.writeFileSync(path.join(__dirname,
-        "user.json"),
-        JSON.stringify(userDB));
-
+    if (user == undefined) {
+        return res.status(404).json({
+            status: "failure",
+            message: "user not found"
+        })
+    }
+    fs.writeFileSync(path.join(__dirname, "user.json"), JSON.stringify(userDB));
     // update 
     res.status(200).json({
         status: "success",
-        user: user != undefined ? user : "No user found"
+        "message": "message"
     })
 })
-
-
 // search and delete 
 app.delete("/api/users/:user_id", function (req, res) {
     let { user_id } = req.params;
+    // {user_id:12345}
+    let initialUserLen = userDB.length;
 
-    let user;
-    for (let i = 0; i < userDB.length; i++) {
-        if (userDB[i].user_id == user_id) {
-            user = userDB.splice(i, 1);
+    userDB = userDB.filter(function (user) {
+        return user.user_id != user_id;
+    }) // removes the data 
 
-            fs.writeFileSync(path.join(__dirname,
-                "user.json"),
-                JSON.stringify(userDB));
-        }
+    if (initialUserLen == userDB.length) {
+        return res.status(404).json({
+            status: "failure",
+            message: "user not found"
+        })
     }
+    fs.writeFileSync(path.join(__dirname, "user.json"), JSON.stringify(userDB));
 
     res.status(200).json({
-        status: `Succesfully removed`,
-        user: user != undefined ? user : "No user found"
+        status: "success",
+        "message": "user deleted"
     })
-
 })
-
 // delete=> DELETE 
 // localhost:3000/api/users
 app.listen(3000, function () {
