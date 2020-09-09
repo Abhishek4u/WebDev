@@ -3,7 +3,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     // db password
-    password: 'password',
+    password: 'Anshul@2021',
     // db instance name 
     database: 'insta_pp'
 })
